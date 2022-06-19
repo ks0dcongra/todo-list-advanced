@@ -7,7 +7,13 @@ router.get('/login', (req, res) => {
 })
 
 router.post('/login', (req, res) => {
-
+  // 引用 passport
+  const passport = require('passport')
+  // 加入 middleware，驗證 request 登入狀態
+  router.post('/login', passport.authenticate('local', {
+    successRedirect: '/',
+    failureRedirect: '/users/login'
+  }))
 })
 
 router.get('/register', (req, res) => {
@@ -31,11 +37,11 @@ router.post('/register', (req, res) => {
         email,
         password
       })
-      .then(() => res.redirect('/'))
-      .catch(err => console.log(err))
+        .then(() => res.redirect('/'))
+        .catch(err => console.log(err))
     }
   })
-  .catch(err => console.log(err))
+    .catch(err => console.log(err))
 })
 
 module.exports = router
